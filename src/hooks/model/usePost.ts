@@ -10,7 +10,7 @@ interface UsePostParams <T> {
   /** 初始化数据 */
   initData: T,
   /** 对接口的返回值做处理 处理后必须将结果返回 */
-  processResult?: (data: any) => any;
+  resultReduction?: (data: any) => any;
   /** 初始化是否立即调用接口获取数据 */
   initCallback: boolean;
 }
@@ -20,7 +20,7 @@ interface UsePostParams <T> {
 */
 export function usePost <T> (usePostParams: UsePostParams<T>) {
   
-  const { getMethod, initData, processResult, initCallback = true } = usePostParams
+  const { getMethod, initData, resultReduction, initCallback = true } = usePostParams
 
   const [ loading, setLoading ] = useState(false)
 
@@ -33,8 +33,8 @@ export function usePost <T> (usePostParams: UsePostParams<T>) {
       setLoading(false)
       const { data } = result
       if (hasError(result)) return 
-      if (processResult) {
-        setResultData(processResult(data))
+      if (resultReduction) {
+        setResultData(resultReduction(data))
       } else {
         setResultData(data)
       }

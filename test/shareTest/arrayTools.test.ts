@@ -1,6 +1,6 @@
 import { describe, test, expect, it } from 'vitest'
 
-import { getArrayLength, arrayIsEmpty, arrayNotEmpty, getArrayLastIndex, arrayGroupBy, arrayToTree, deduplicate } from '../../src/share'
+import { getArrayLength, arrayIsEmpty, arrayNotEmpty, getArrayLastIndex, arrayGroupBy, arrayToTree, deduplicate, rangeFind } from '../../src/share'
 
 describe('test arrayTools', () => {
 
@@ -114,6 +114,80 @@ describe('test arrayTools', () => {
     ]
     const res1 = deduplicate(data1, (item) => item.id)
     expect(res1).toEqual(exec1)
+
+  })
+
+  test('getArrayLength', () => {
+
+    const exec1 = [
+      {
+        "start": {
+          "value": 2,
+          "index": 1
+        },
+        "end": {
+          "value": 5,
+          "index": 4
+        }
+      },
+      {
+        "start": {
+          "value": 2,
+          "index": 6
+        },
+        "end": {
+          "value": 6,
+          "index": 10
+        }
+      },
+      {
+        "start": {
+          "value": 2,
+          "index": 12
+        },
+        "end": {
+          "value": 2,
+          "index": 12
+        }
+      }
+    ]
+
+    const res = rangeFind([1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 6, 1, 2], (item) => item > 1)
+    expect(res).toEqual(exec1)
+
+
+    const exec2 = [
+      {
+        "start": {
+          "value": {
+            "number": 2
+          },
+          "index": 0
+        },
+        "end": {
+          "value": {
+            "number": 4
+          },
+          "index": 2
+        }
+      },
+      {
+        "start": {
+          "value": {
+            "number": 2
+          },
+          "index": 4
+        },
+        "end": {
+          "value": {
+            "number": 3
+          },
+          "index": 6
+        }
+      }
+    ]
+    const res1 = rangeFind([{ number: 2 }, { number: 3 }, { number: 4 }, { number: 1 }, { number: 2 }, { number: 2 }, { number: 3 }, { number: 1 }], (item) => item.number > 1)
+    expect(res1).toEqual(exec2)
 
   })
 

@@ -3,7 +3,7 @@ import { resolve } from 'path'
 export default defineConfig({
   test: {
     'alias': {
-      '@': resolve(__dirname, './src')
+      '@': resolve(__dirname, './src'),
     }
   },
 });

@@ -128,3 +128,47 @@ export function deduplicate <T> (originData: T [], callback: (itme: T, index: nu
   return result
 
 }
+
+
+
+type RangePoolItem <T> = { start: { value: T,  index: number }, end: { value: T,  index: number } } 
+type RangeCacheItem <T> =  { value: T,  index: number }
+type RangeCallback<T> = (item: T, index: number) => boolean 
+
+export function rangeFind <T> (originData: T [], callback: RangeCallback<T> ) {
+   
+  const rangePool: RangePoolItem<T> [] = []
+
+  let rangeCache: RangeCacheItem<T> [] = []
+  
+  for (let index = 0; index < originData.length; index++) {
+    const element = originData[index];
+    if (callback(element, index)) {
+      rangeCache.push({value: element, index: index})
+    } else {
+      const rangenNode = createRangenNode(rangeCache)
+      if (rangenNode) {
+        rangePool.push(rangenNode)
+      }
+      rangeCache.length = 0
+    }
+  }
+
+  const rangenNode = createRangenNode(rangeCache)
+  if (rangenNode) {
+    rangePool.push(rangenNode)
+  }
+
+  return rangePool
+}
+
+function createRangenNode <T>(rangeCache: RangeCacheItem<T> []):RangePoolItem<T> | false {
+  if (arrayIsEmpty(rangeCache)) return false 
+  const lastIndex = getArrayLastIndex(rangeCache)
+  const end = rangeCache[ lastIndex ]
+  const start = rangeCache[ 0 ]
+  return {
+    start,
+    end
+  }
+}
