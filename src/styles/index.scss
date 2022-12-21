@@ -5,3 +5,19 @@ html.dark body {
 body.dark {
   background-color: pink;
 }
+
+
+.bubble_node {
+  animation: scale 1s ease-in-out;
+}
+
+@keyframes scale {
+    from {
+      transform: scale(1);
+      background: red;
+    }
+    to {
+      transform: scale(10);
+      background: yellow;
+    }
+}

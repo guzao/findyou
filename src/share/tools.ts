@@ -41,7 +41,7 @@ export function crateMap <T> (data: T [], mapKey: keyof T): Map<keyof T, T> {
 
 
 /** 
- * 深度循环，只要子节点的children属性为数组，切元素不为空， 则递归执行
+ * 深度循环，只要子节点的children属性为数组，且元素不为空， 则递归执行
  */
 export function depEach <T> (data: T [], clallBack: (item: T) => void) {
   data.forEach(item => {
