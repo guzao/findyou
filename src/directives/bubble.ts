@@ -5,7 +5,7 @@ type BubbleEelment = HTMLElement & { handle: (e: MouseEvent) => void }
 export const bubble : Directive & { name: string } =  {
   name: 'bubble',
   mounted (el: BubbleEelment, binding, vnode) {
-    setmountElStyle(el)
+    setMountElStyle(el)
     el.handle = (event) => {
       const node = createBubbleNode(event, el)
       el.appendChild(node)
@@ -34,7 +34,7 @@ function createBubbleNode (event: MouseEvent, mountEl: BubbleEelment): HTMLSpanE
   return node
 }
 
-function setmountElStyle ( mountEl: BubbleEelment) {
+function setMountElStyle ( mountEl: BubbleEelment) {
   mountEl.style.cursor = 'pointer'
   mountEl.style.overflow = 'hidden'
   mountEl.style.position = 'relative'

@@ -40,5 +40,5 @@ server.on('request',function (request,response) {
 //绑定端口号 启动服务
 server.listen(9999,function () {
     console.log('已经开启您的http服务器')
-    console.log('访问地址：http:127.0.0.1:9988/')
+    console.log('访问地址：http:127.0.0.1:9999/')
 })

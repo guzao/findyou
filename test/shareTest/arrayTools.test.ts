@@ -1,6 +1,7 @@
 import { describe, test, expect, it } from 'vitest'
 
-import { getArrayLength, arrayIsEmpty, arrayNotEmpty, getArrayLastIndex, arrayGroupBy, arrayToTree, deduplicate, rangeFind } from '../../src/share'
+import { getArrayLength, arrayIsEmpty, arrayNotEmpty, getArrayLastIndex, arrayGroupBy, 
+  arrayToTree, deduplicate, rangeFind, getArrayLastElement, numericalStatistics } from '../../src/share'
 
 describe('test arrayTools', () => {
 
@@ -23,6 +24,13 @@ describe('test arrayTools', () => {
     expect(getArrayLastIndex([])).toBe(-1)
     expect(getArrayLastIndex([1])).toBe(0)
     expect(getArrayLastIndex([1, 1])).toBe(1)
+  })
+
+  test('getArrayLastElement', () => {
+    expect(getArrayLastElement([])).toBe(undefined)
+    expect(getArrayLastElement([1])).toBe(1)
+    expect(getArrayLastElement([1, 2])).not.toBe(1)
+    expect(getArrayLastElement([{ id: 1 }])).toEqual({ id: 1 })
   })
 
   test('arrayGroupBay', () => {
@@ -117,7 +125,7 @@ describe('test arrayTools', () => {
 
   })
 
-  test('getArrayLength', () => {
+  test('rangeFind', () => {
 
     const exec1 = [
       {
@@ -191,6 +199,10 @@ describe('test arrayTools', () => {
 
   })
 
+  test('numericalStatistics', () => {
+    expect(numericalStatistics([1, 2,1], 1)).toBe(2)
+    expect(numericalStatistics([1, 2,1], 2)).toBe(1)
+  })
 
 })
 

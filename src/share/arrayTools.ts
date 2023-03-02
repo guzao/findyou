@@ -1,4 +1,4 @@
-import { depCloe } from './tools'
+import { depCloe, depEach } from './tools'
 
 /**
  * 获取数组的长度
@@ -34,6 +34,19 @@ export function getArrayLastIndex<T>(data: T[]): number {
     return -1
   }
   return getArrayLength(data) - 1
+}
+
+/**
+ * 获取数组的最后一个元素
+ * @param data
+*/
+export function getArrayLastElement <T> (data: T []): T | undefined {
+  if ( arrayIsEmpty(data) ) {
+    return undefined
+  }
+  const lastIndex = getArrayLastIndex(data)
+  const lastElement = data[lastIndex]
+  return lastElement
 }
 
 /**
@@ -134,7 +147,9 @@ export function deduplicate <T> (originData: T [], callback: (itme: T, index: nu
 type RangePoolItem <T> = { start: { value: T,  index: number }, end: { value: T,  index: number } } 
 type RangeCacheItem <T> =  { value: T,  index: number }
 type RangeCallback<T> = (item: T, index: number) => boolean 
-
+/**
+ * 查找数组中,数值的范围区间
+*/
 export function rangeFind <T> (originData: T [], callback: RangeCallback<T> ) {
    
   const rangePool: RangePoolItem<T> [] = []
@@ -146,29 +161,53 @@ export function rangeFind <T> (originData: T [], callback: RangeCallback<T> ) {
     if (callback(element, index)) {
       rangeCache.push({value: element, index: index})
     } else {
-      const rangenNode = createRangenNode(rangeCache)
-      if (rangenNode) {
-        rangePool.push(rangenNode)
+      const rangeNode = createrangeNode(rangeCache)
+      if (rangeNode) {
+        rangePool.push(rangeNode)
       }
       rangeCache.length = 0
     }
   }
 
-  const rangenNode = createRangenNode(rangeCache)
-  if (rangenNode) {
-    rangePool.push(rangenNode)
+  const rangeNode = createrangeNode(rangeCache)
+  if (rangeNode) {
+    rangePool.push(rangeNode)
   }
+
+  rangeCache.length = 0
 
   return rangePool
 }
 
-function createRangenNode <T>(rangeCache: RangeCacheItem<T> []):RangePoolItem<T> | false {
+function createrangeNode <T>(rangeCache: RangeCacheItem<T> []):RangePoolItem<T> | false {
   if (arrayIsEmpty(rangeCache)) return false 
-  const lastIndex = getArrayLastIndex(rangeCache)
-  const end = rangeCache[ lastIndex ]
+  const end = getArrayLastElement(rangeCache)!
   const start = rangeCache[ 0 ]
   return {
     start,
     end
   }
 }
+
+/**
+ * 统计某个数值出现的次数
+*/
+export function numericalStatistics <T extends number | string> (data: T [], key: T) {
+  let count = 0
+  for (let index = 0; index < data.length; index++) {
+    const element = data[index];
+    if (key == element) count++
+  }
+  return count
+}
+
+
+type BaseProp = { id: number | string }
+/**
+ * 数组转Map结构
+*/
+export function arratToMap <T extends BaseProp> (data: T [], childrenKey = 'children') {
+  const marMap: Map<number| string, T> = new Map()
+  depEach(data, (item) => marMap.set(item.id, item) )
+  return marMap
+} 

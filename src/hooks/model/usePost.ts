@@ -12,7 +12,7 @@ interface UsePostParams <T> {
   /** 对接口的返回值做处理 处理后必须将结果返回 */
   resultReduction?: (data: any) => any;
   /** 初始化是否立即调用接口获取数据 */
-  initCallback: boolean;
+  initCallback?: boolean;
 }
 
 /**

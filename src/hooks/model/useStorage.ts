@@ -11,17 +11,12 @@ interface UseStorage <T> {
   StorageType: 'localStorage' | 'sessionStorage';
 }
 
-type UseStorageReturnType <T> = [  
-  store: Ref<UnwrapRef<T>>, 
-  setStore: (newSate: UnwrapRef<T>) => void, 
-  removeStorage: () => void
-]
 
 /**
  * 使用本地存储，数据变化自动同步到本地缓存中
  * 
 */
-export function useStorage <T> (useStorageParams: UseStorage<T>, ): UseStorageReturnType<T> {
+export function useStorage <T> (useStorageParams: UseStorage<T>) {
 
   const [ isStop, setIsStop ] = useState(false)
 
@@ -42,11 +37,11 @@ export function useStorage <T> (useStorageParams: UseStorage<T>, ): UseStorageRe
   }
   
 
-  return [
+  return {
     store,
     setStore,
     removeStorage,
-   ]
+  } 
 
 }
 

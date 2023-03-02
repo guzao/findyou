@@ -11,7 +11,7 @@ export const isArray = Array.isArray
 export function hasError (result: ResultBaseData) {
   const { code, msg } = result
   if (code !== ResultState.SUCCESS) {
-    message.error(msg)
+    message.error(msg || '后台返回数据格式错误')
     return true
   }
 }
@@ -41,14 +41,20 @@ export function crateMap <T> (data: T [], mapKey: keyof T): Map<keyof T, T> {
 
 
 /** 
- * 深度循环，只要子节点的children属性为数组，且元素不为空， 则递归执行
+ * 深度循环，只要子节点的children || 特定属性为数组，且元素不为空， 则递归执行
  */
-export function depEach <T> (data: T [], clallBack: (item: T) => void) {
+export function depEach <T> (data: T [], clallBack: (item: T) => void, key?: string) {
   data.forEach(item => {
     clallBack(item)
-    const children = (item as any).children
-    if (children) {
-      depEach(children, clallBack)
-    }
+    let children = key ? (item as any)[key] : (item as any).children
+    if (children) depEach(children, clallBack)
   })
+}
+
+
+/**
+ * 检查数据类型
+*/
+export function typeChecking (data: any): string {
+  return Object.prototype.toString.call(data).split(' ')[1].replace(']', '')
 }

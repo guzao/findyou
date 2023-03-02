@@ -21,7 +21,7 @@ export function useDark (darkParams: UseDark) {
 
   let elment: Element
 
-  const [ isDark, setIsDark ] = useStorage({ key: 'isDark', defalutData: initData, StorageType: 'localStorage' })
+  const { store : isDark, setStore:setIsDark } = useStorage({ key: 'isDark', defalutData: initData, StorageType: 'localStorage' })
 
   watch(isDark, () => {
     if (mounteElement) {
